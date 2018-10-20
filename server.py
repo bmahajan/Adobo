@@ -45,16 +45,20 @@ def check_user_account():
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM users WHERE id = %s;", (id))
             result = cursor.fetchall()[0]
+            print(result)
             if event not in result or result[event] == 1:
                 connection.close()
                 return "consumed"
+                connection.close()
             else:
-                print(event)
-                cursor.execute("UPDATE users SET " + event + "= 1 WHERE id = %s", (id))
-                connection.commit()
-                connection.close();
+                with connection.cursor() as cursor:
+                    print("UPDATE users SET " + event + "= 1 WHERE id = \""+ id + "\";")
+                    cursor.execute("UPDATE users SET " + event + "= 1 WHERE id = \""+ id + "\";")
+                    connection.commit()
+                    connection.close();
     except Exception as e:
-        return str(e)
+        print(e)
+        return ("failed")
     return "success"
 
 
@@ -62,4 +66,4 @@ def check_user_account():
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
     port = int(os.environ.get('PORT', 80))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='0.0.0.0', port=port)
