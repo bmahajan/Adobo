@@ -1,0 +1,4 @@
+MYSQL_HOST=mysql
+MYSQL_USER=hacktx
+MYSQL_PASS=freetailhackers
+MYSQL_DB=users

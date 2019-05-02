@@ -16,7 +16,7 @@ def get_emails():
                                      cursorclass=pymysql.cursors.DictCursor)
 
         with connection.cursor() as cursor:
-            cursor.execute("SELECT email FROM users ORDER BY email;")
+            cursor.execute("SELECT DISTINCT email FROM users WHERE HoppyHour=1 ORDER BY email;")
             result = cursor.fetchall()
     except Exception as e:
         return str(e)
